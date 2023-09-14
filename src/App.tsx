@@ -8,7 +8,7 @@ import "./App.css";
 
 
 function App() {
- let ak;
+//  let ak;
   return (
     <div className="App">
       <Routes> 
