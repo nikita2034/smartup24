@@ -1,0 +1,32 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    gap:30px;
+    margin-bottom: 25px;
+    &_button{
+        color:black;
+        background-color: #F8F8F8;
+        border-radius:8px;
+        border:1.5px solid #F4F4F4;
+        padding: 10px;
+        font-size: 16px;
+        &:active{
+            color:white;
+            background-color:#4EB472;
+            border:1.5px solid #58A977;
+        }
+        }
+    // align-items: start;
+}
+.title{
+    text-align: start;
+    margin-bottom: 25px;
+}
+.container{
+    // width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    // margin-right: 25px;
+    // align-items:start;
+}

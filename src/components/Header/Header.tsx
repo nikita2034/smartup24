@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import type { RootState } from "../../store";
 import { useDispatch,useSelector } from "react-redux";
 import { selectPage } from "../../store/slices/pageSlice";
+import {BsBasket} from 'react-icons/bs'; 
+import {LiaUserSolid} from 'react-icons/lia';
 type Props = {};
 
 type LinkId = "link1" | "link2" | "link3";
@@ -58,9 +60,9 @@ function Header({}: Props) {
          </Link>
 
         <Link
-          to="/"
+          to="/cooperation"
           className={`${styles.linka} ${
-            selectedLink === "link3" ? styles.selected : ""
+            selectedLink === "link3" ? styles.selecteda: ""
           }`}
           onClick={() => handlePageSelect("link3")}
         >
@@ -72,10 +74,10 @@ function Header({}: Props) {
 
       <div className={styles.toolbar}>
         <input placeholder="поиск" className={styles.product_search} />
-        <div>1</div>
+        <Link to='/cart'><BsBasket className={styles.basket_logo}/></Link>
         <div>2</div>
         <div>3</div>
-        <div>4</div>
+        <div><LiaUserSolid className={styles.basket_logo}/></div>
       </div>
       <select className={styles.language_selector}>
         <option value="RU">RU</option>
