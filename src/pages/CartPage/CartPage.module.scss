@@ -1,4 +1,131 @@
 .container{
+ 
+  margin-left: 25px;
+  margin-right: 25px;
+}
+.block{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header{
+  text-align: start;
+}
+.selected_product{
+  display: flex;
+  flex-direction: row;
+  // background-color: #F8F8F8;
+  padding: 10px;
+  border-radius:8px;
+  border:1.5px solid #F4F4F4;
+  margin-bottom: 30px;
+  &_image{
+    width: 120px;
+    height: 120px;
+    border-radius:8px;
+  }
+  &_title{
+    
+  }
+  &_price{
+    margin-left: 40px;
+  }
+  &_button_delete{
+    // display: flex;
+    align-self: start;
+    margin-left: 40px;
+  }
+  &_quantity_selection{
+    display: flex;
+    gap:15px;
+    align-items:center;
+    flex-direction: row;
+    background-color:#F6F6FA;
+    border-radius:8px;
+    padding: 8px;
+  }
+}
+.flex_block{
   display: flex;
   flex-direction: column;
+  align-items:start;
+  margin-left: 20px;
+  gap:15px;
+}
+.payment_block{
+  width: 230px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius:10px;
+  background-color:#F6F6FA;
+  align-items:start;
+  &_header{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  &_title{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  &_button{
+    margin-top: 20px;
+    border:none;
+    color:white;
+    font-size: 18px;
+    font-weight: 500;
+    background-color:rgb(27,147,205);
+    border-radius:8px;
+    padding: 10px;
+  }
+}
+.icon{
+  width:20px;
+  height: 20px;
+}
+.title{
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.button{
+  padding: 8px;
+  color: white;
+  background-color:rgb(27,147,205);
+  border:none;
+  border-radius:8px;
+}
+.order_details{
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+ 
+}
+.empty_basket{
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  gap:15px;
+  margin-top: 50px;
+  margin-left: 25px;
+  &_header{
+    font-size: 24px;
+    font-weight: 600;
+  }
+  &_title{
+    font-size: 22px;
+    font-weight: 600;
+  }
+  &_button{
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color:white;
+    background-color: rgb(27,147,205);
+    border-radius:8px;
+    padding: 10px;
+    text-decoration: none;
+  }
 }

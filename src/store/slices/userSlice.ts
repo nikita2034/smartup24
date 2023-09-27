@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Определите начальное состояние
-interface Product {
+export interface Product {
   id: number;
   title: string;
   trademark: string;
@@ -11,6 +11,7 @@ interface Product {
   price_per_box: number;
   weight: number;
   quantity_per_box:number;
+  quantity:number;
   photos: string[];
 }
 
@@ -18,12 +19,15 @@ interface OrdersState {
   orders: Product[];
 }
 
-interface UserState {
+export interface UserState {
   user: {
     id: string;
     name: string;
     email: string;
+    auth:boolean;
+    
   } | null;
+  
   cart: {
     orders: Product[]; // Здесь может быть ваш формат корзины товаров
   };
@@ -31,6 +35,7 @@ interface UserState {
 
 const initialState: UserState = {
   user: null,
+  // auth:false,
   cart: {
     orders: [],
   },
@@ -55,9 +60,12 @@ const userSlice = createSlice({
     clearOrders: (state) => {
       state.cart.orders = [];
     },
+    clearUsers: (state) => {
+      state.user = null;
+    },
   },
 });
 
-export const { setUser, addOrder, removeOrder, clearOrders } = userSlice.actions;
+export const { setUser, addOrder, removeOrder, clearOrders,clearUsers } = userSlice.actions;
 
 export default userSlice.reducer;

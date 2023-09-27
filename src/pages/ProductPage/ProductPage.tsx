@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./ProductPage.module.scss";
 import Header from "../../components/Header/Header";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
@@ -7,19 +7,19 @@ import { PiPlusSquareLight, PiMinusSquareLight } from "react-icons/pi";
 import type { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../../store/slices/userSlice";
-
+import { useParams } from 'react-router-dom';
 type Props = {};
+
+
 
 function ProductPage({}: Props) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
-  const idProduct = useSelector(
-    (state: RootState) => state.products.idSelectedProduct
-  );
+
+  const { id } = useParams();
   const product = useSelector(
-    (state: RootState) => state.products.products[idProduct]
+    (state: RootState) => state.products.products[Number(id)-1]
   );
-  console.log(idProduct);
 
   function reducingQuantity() {
     if (quantity !== 1) {
@@ -28,6 +28,9 @@ function ProductPage({}: Props) {
       setQuantity(1);
     }
   }
+  const handleAddToCart = () => {
+    dispatch(addOrder({ ...product, quantity }));
+  };
 
 //  ;
   return (
@@ -114,7 +117,7 @@ function ProductPage({}: Props) {
               </div>
               <div className={styles.product_price_title}>Общая стоимость</div>
             </div>
-            <button className={styles.order_button} onClick={()=>dispatch(addOrder(product))}>В корзину</button>
+            <button className={styles.order_button} onClick={()=>handleAddToCart()}>В корзину</button>
           </div>
         </div>
       </div>

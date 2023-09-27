@@ -1,0 +1,91 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+        margin-right: 40px;
+}
+.supplier{
+
+    &_horizontal_list{
+        margin-top: 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    &_logo{
+        margin-top: -65px;
+        border-radius: 8px;
+        width: 180px;
+        height: 90px;
+    }
+    &_promo_photo{
+        // width: 100%;
+        height: 200px;
+        margin-bottom: 25px;
+    }
+    &_header{
+        
+        display: flex;
+        flex-direction: row;
+        gap:20px;
+        align-items:center;
+    }
+    &_inn{
+        margin-top: 20px;
+        margin-bottom:20px;
+        color: rgb(182, 177, 177);
+    }
+    &_description{
+        width: 520px;
+        margin-bottom: 20px;
+    }
+    &_show_more_desc{
+        border: none;
+        background-color: white;
+        text-decoration: underline;
+        margin-bottom: 30px;
+    }
+    &_button{
+        display: flex;
+        flex-direction: row;
+        gap:20px;
+    }
+    &_title{
+        font-size: 24px;
+        font-weight: 600;
+    }
+    &_main_desc{
+        // align-items: start;
+        text-align: start;
+       
+    }
+    &_add_desc{
+        text-align: start;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    &_advantage_desc{
+        width: 300px;
+    }
+    &_advantage{
+        font-size: 22px;
+        font-weight:600;
+    }
+    &_additional_information{
+        display: flex;
+        flex-direction: row;
+        gap:15px;
+    }
+    &_block{
+        display: flex;
+        flex-direction: column;
+        gap:10px
+    }
+}
+.line{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-bottom: 1.5px solid #F2F2F2;
+    width: 100%;
+}

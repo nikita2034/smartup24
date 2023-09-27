@@ -31,9 +31,11 @@ function LoginForm ({ onClose }:LoginFormProps){
               setUser({
                 email: user.email|| '',
                 id: user.uid,
-                name:'peter'
-              })
+                name:'peter',
+                auth:true
+              })  
             );
+            localStorage.setItem('userData', JSON.stringify(user));
             navigate("/main");
           
           })

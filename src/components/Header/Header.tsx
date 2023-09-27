@@ -2,25 +2,47 @@ import React, { useState } from "react";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import type { RootState } from "../../store";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectPage } from "../../store/slices/pageSlice";
-import {BsBasket} from 'react-icons/bs'; 
-import {LiaUserSolid} from 'react-icons/lia';
+import { BsBasket } from "react-icons/bs";
+import { LiaUserSolid } from "react-icons/lia";
+import { clearUsers } from "../../store/slices/userSlice";
+import { useNavigate } from "react-router-dom";
+import {MdFavoriteBorder} from 'react-icons/md'
 type Props = {};
 
 type LinkId = "link1" | "link2" | "link3";
 
 function Header({}: Props) {
   const dispatch = useDispatch();
-
-  const page=useSelector((state: RootState) => state.page).selectedPage
+  const navigate = useNavigate()
+  const page = useSelector((state: RootState) => state.page).selectedPage;
   const [selectedLink, setSelectedLink] = useState<LinkId | null>(page);
 
   const handlePageSelect = (selectedLink: LinkId) => {
-    setSelectedLink(selectedLink)
+    setSelectedLink(selectedLink);
     dispatch(selectPage(selectedLink));
   };
-  
+
+  const logOut = ()  => {
+    // Удалите данные пользователя из Local Storage
+    localStorage.removeItem('userData');
+    
+    // Очистите данные пользователя в Redux
+    dispatch(clearUsers());
+    navigate('/')
+  };
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logotype}>
@@ -29,14 +51,12 @@ function Header({}: Props) {
       </div>
       <div className={styles.navlink}>
         <Link
-        
           className={`${styles.linka} ${
             selectedLink === "link1" ? styles.selecteda : ""
           }`}
           onClick={() => handlePageSelect("link1")}
           to="/main"
-        > 
-        
+        >
           <div className={styles.product_catalog_button}>
             <div className={styles.burger_menu}>
               <div className={styles.line}></div>
@@ -48,42 +68,51 @@ function Header({}: Props) {
 
         <Link
           to="/orders"
-        
           onClick={() => handlePageSelect("link2")}
           className={`${styles.linka} ${
             selectedLink === "link2" ? styles.selecteda : ""
           }`}
         >
-        <div className={styles.navlink_title}>
-            Заказы
-        </div>
-         </Link>
+          <div className={styles.navlink_title}>Заказы</div>
+        </Link>
 
         <Link
-          to="/cooperation"
+          to="/suppliers"
           className={`${styles.linka} ${
-            selectedLink === "link3" ? styles.selecteda: ""
+            selectedLink === "link3" ? styles.selecteda : ""
           }`}
           onClick={() => handlePageSelect("link3")}
         >
-           <div className={styles.navlink_title}>
-          Сотрудничество
-          </div>
+          <div className={styles.navlink_title}>Сотрудничество</div>
         </Link>
       </div>
 
       <div className={styles.toolbar}>
         <input placeholder="поиск" className={styles.product_search} />
-        <Link to='/cart'><BsBasket className={styles.basket_logo}/></Link>
-        <div>2</div>
-        <div>3</div>
-        <div><LiaUserSolid className={styles.basket_logo}/></div>
+        <Link to="/cart">
+          <BsBasket className={styles.basket_logo} />
+        </Link>
+        <div><MdFavoriteBorder className={styles.basket_logo}/></div>
+        <div
+          className={styles.user_icon}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <LiaUserSolid className={styles.basket_logo} />
+          {isHovered && (
+            <div className={styles.user_info_popup}>
+              Никита Евтух 375445673247 Уведомления Доставки Покупки Избранное
+              Личные данные Скидка покупателя до 33% Отзывы 
+              <button onClick={()=>logOut()} className={styles.user_info_popup_button_exit}>Выйти</button>
+            </div>
+          )}
+        </div>
       </div>
-      <select className={styles.language_selector}>
+      {/* <select className={styles.language_selector}>
         <option value="RU">RU</option>
         <option value="ENG">ENG</option>
-      </select>
-      <button className={styles.order_button}>Сделать заказ</button>
+      </select> */}
+      {/* <button className={styles.order_button}>Сделать заказ</button> */}
     </header>
   );
 }

@@ -29,18 +29,9 @@ function ProductCard({
   weight,
   quantity_per_box,
   photos}: Props) {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    function savingtIdRedux(id:number){
-      dispatch(
-        addIdProduct(id-1)
-      );
-      navigate("/product");
-      console.log(id)
-    }
+
   return (
-    // <Link onClick={(id)=>savingtIdRedux} to="/product" className={styles.link} >
-      <div className={styles.container} onClick={()=>savingtIdRedux(id)}>
+      <div className={styles.container} >
         <img
           src="/img\milka.jpg"
           alt="product photo"
@@ -71,7 +62,6 @@ function ProductCard({
           </div>
         </div>
       </div>
-    // </Link>
   );
 }
 

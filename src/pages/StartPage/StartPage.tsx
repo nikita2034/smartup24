@@ -36,9 +36,7 @@ function StartPage({}: Props) {
         </div>
         <div className={styles.navlink}>
           <div>Преимущества</div>
-          <div>Видеопрезентация</div>
           <div>О компании</div>
-          <div>Вопро ответ</div>
           <div>Контакты</div>
         </div>
         <div className={styles.authentication_panel}>
@@ -57,7 +55,6 @@ function StartPage({}: Props) {
         <LoginForm onClose={handleLoginFormClose} />
       )}
         </div>
-        <button className={styles.language_selector}>Ru</button>
       </header>
 
       <main className={styles.main}>

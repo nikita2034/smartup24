@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import Header from '../../components/Header/Header';
-import styles from './CartPage.module.scss';
+import React, { useState } from "react";
+import Header from "../../components/Header/Header";
+import styles from "./CartPage.module.scss";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { RootState } from "@/store";
+import BasketItem from "../../components/BasketItem/BasketItem";
+import { Link } from "react-router-dom";
 interface CartItem {
   id: number;
   name: string;
@@ -9,60 +13,51 @@ interface CartItem {
 }
 
 const CartPage: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { id: 1, name: 'Product 1', price: 10, quantity: 2 },
-    { id: 2, name: 'Product 2', price: 15, quantity: 1 },
-    // Добавьте сюда другие товары в корзине
-  ]);
+  const selectedproducts = useSelector(
+    (state: RootState) => state.user.cart.orders
+  );
 
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
-
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    const updatedCartItems = cartItems.map(item =>
-      item.id === itemId ? { ...item, quantity: newQuantity } : item
-    );
-    setCartItems(updatedCartItems);
-  };
-
-  const handleRemoveItem = (itemId: number) => {
-    const updatedCartItems = cartItems.filter(item => item.id !== itemId);
-    setCartItems(updatedCartItems);
-  };
+  // const calculateTotal = () => {
+  //   return selectedproduct.reduce((total, item) => total + item.price * item.quantity, 0);
+  // };
 
   return (
-    <div className="cart">
-    <Header/>
-      <h2>Корзина</h2>
-      <div className={styles.container}>
-        <div>
-          {cartItems.map(item => (
-            <div key={item.id}>
-              <div>{item.name}</div>
-              <div>${item.price}</div>
-              <div>
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={e =>
-                    handleQuantityChange(item.id, parseInt(e.target.value))
-                  }
-                />
-              </div>
-              <div>${item.price * item.quantity}</div>
-              <div>
-                <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
-              </div>
-            </div>
-          ))}
+    <>
+      <Header />
+      <div >
+      {selectedproducts.length === 0 ? (
+      <div className={styles.empty_basket}>
+        <div className={styles.empty_basket_header}>
+        Корзина пуста
         </div>
+        <div className={styles.empty_basket_title}>Чтобы найти товары, воспользуйтесь поиском</div>
+        <Link to='/main' className={styles.empty_basket_button}>За покупками</Link>
+      </div>):
+        (
+        <div className={styles.container}>
+          <h2 className={styles.header}>Корзина</h2>
+          <div className={styles.block}> 
+          <div className={styles.order_details}>
+            <div>
+              {selectedproducts.map((item)=>BasketItem(item))}
+            </div>
+            <div className={styles.title}>Адрес доставки</div>
+            <button className={styles.button}>Добавить</button>
+            <div className={styles.title}>Способ оплаты</div>
+            <button className={styles.button}>Добавить</button>
+          </div>
+      
+        <div className={styles.payment_block}>
+          <div className={styles.payment_block_header}>Итого </div> 
+          <div className={styles.payment_block_title}>3 товара: </div>
+          <div className={styles.payment_block_title}>Доставка</div>
+          <div></div>
+          <button className={styles.payment_block_button}>Оплатить</button>
+        </div> 
+        </div>
+        </div>)}
       </div>
-      <div className="total">
-        <p>Total: ${calculateTotal()}</p>
-        <button>Checkout</button>
-      </div>
-    </div>
+    </>
   );
 };
 

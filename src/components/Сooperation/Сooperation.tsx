@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import styles from './Cooperation.module.scss'
+import { Link } from 'react-router-dom';
 interface CooperationProps {
+  id:number;
   logo: string;
   name: string;
   categories: string[];
   onCollaborate: () => void;
+  path:string;
 }
 
-const Cooperation: React.FC<CooperationProps> = ({ logo, name, categories, onCollaborate }) => {
+
+const Cooperation: React.FC<CooperationProps> = ({id, logo, name, categories, onCollaborate,path }) => {
+
   return (
-    <div className={styles.container}>
+    <Link className={styles.container} to={`/supplier/${id}`}>
       <img src={logo}  className={styles.company_logo}/>
       <div className={styles.flex_block}>
          <div className={styles.company_name}>{name}</div>
@@ -19,8 +24,7 @@ const Cooperation: React.FC<CooperationProps> = ({ logo, name, categories, onCol
       <div className={styles.line}></div>
       <div className={styles.categories_products}>Категории продуктов</div>
       <div>{categories.join(', ')}</div>
-     
-    </div>
+    </Link>
   );
 };
 

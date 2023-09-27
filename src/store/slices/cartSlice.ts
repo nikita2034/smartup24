@@ -10,6 +10,7 @@ interface Product {
     price_per_box: number;
     weight: number;
     quantity_per_box:number;
+    quantity:number;
     photos: [];
   }
 

@@ -7,8 +7,11 @@ import CategoryDropdown from "../../components/CategoryDropdown/CategoryDropdown
 import ImageSlider from "../../components/ImageSlider/ImageSlider";
 import { useSelector } from "react-redux";
 import {doc, query, where, getDocs,collection } from 'firebase/firestore';
+import { Link } from "react-router-dom";
 import { db } from "../../firebase";
 import { Product } from "../../store/slices/productsSlice";
+
+
 type Props = {};
 
 function MainPage({}: Props) {
@@ -18,6 +21,7 @@ function MainPage({}: Props) {
   const user = useSelector((state: RootState) => state.user.user);
   const images=['/img/milka.jpg','/img/milka.jpg','/img/milka.jpg']
   let listProducts=products.map((product) => (
+    <Link className={styles.link} to={`/product/${product.id}`}>
     <ProductCard
       id={product.id}
       title={product.title}
@@ -30,6 +34,7 @@ function MainPage({}: Props) {
       quantity_per_box={product.quantity_per_box}
       photos={product.photos}
     />
+    </Link>
   ));
   async function getData() {
     console.log('1')
@@ -54,7 +59,6 @@ function MainPage({}: Props) {
   useEffect(() => {
     if (user) {
       console.log('start')
-
       getData()
     }
   }, []);
