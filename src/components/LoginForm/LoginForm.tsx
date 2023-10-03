@@ -12,12 +12,15 @@ interface LoginFormProps {
 function LoginForm ({ onClose }:LoginFormProps){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null||'');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleLogin(email,password);
-    onClose();
+
   };
 
 
@@ -36,29 +39,30 @@ function LoginForm ({ onClose }:LoginFormProps){
               })  
             );
             localStorage.setItem('userData', JSON.stringify(user));
+            // setError(null); 
             navigate("/main");
-          
+            onClose();
           })
           // блок для отработки различных ошибок при авторизации
           .catch((error) => {
-            // if (error.message == "Firebase: Error (auth/user-not-found).") {
-            //   setErrorDescription(
-            //     "The user was not found. Check that your username and correct!"
-            //   );
-            //   setSpinner(!spinner);
-            // }
-            // if (error.message == "Firebase: Error (auth/internal-error).") {
-            //   setErrorDescription("Fill in the password field!");
-            //   setSpinner(!spinner);
-            // }
-            // if (error.message == "Firebase: Error (auth/invalid-email).") {
-            //   setErrorDescription("Invalid email value!");
-            //   setSpinner(!spinner);
-            // }
-            // if (error.message == "Firebase: Error (auth/wrong-password).") {
-            //   setErrorDescription("Wrong password!");
-            //   setSpinner(!spinner);
-            // }
+            if (error.message === "Firebase: Error (auth/user-not-found).") {
+                setError(
+                "The user was not found. Check that your username and correct!"
+              );
+              // setSpinner(!spinner);
+            }
+            if (error.message === "Firebase: Error (auth/internal-error).") {
+                setError("Fill in the password field!");
+              // setSpinner(!spinner);
+            }
+            if (error.message === "Firebase: Error (auth/invalid-email).") {
+                setError("Invalid email value!");
+              // setSpinner(!spinner);
+            }
+            if (error.message === "Firebase: Error (auth/wrong-password).") {
+                setError("Wrong password!");
+              // setSpinner(!spinner);
+            }
           });
   };
 
@@ -92,6 +96,7 @@ function LoginForm ({ onClose }:LoginFormProps){
             />
           </div>
           <button onClick={()=>handleSubmit} className={styles.button} type="submit">Login</button>
+          {error && <div style={{ color: 'red' }}>{error}</div>} {/* Вывод ошибки */}
         </form>
       </div>
     </div>

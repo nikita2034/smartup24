@@ -35,9 +35,9 @@ function StartPage({}: Props) {
           <div className={styles.logo_text}>smartup24</div>
         </div>
         <div className={styles.navlink}>
-          <div>Преимущества</div>
-          <div>О компании</div>
-          <div>Контакты</div>
+          <div   className={styles.navlink_title}>Преимущества</div>
+          <div  className={styles.navlink_title}>О компании</div>
+          <div  className={styles.navlink_title}>Контакты</div>
         </div>
         <div className={styles.authentication_panel}>
           <button  onClick={handleRegistrationButtonClick}

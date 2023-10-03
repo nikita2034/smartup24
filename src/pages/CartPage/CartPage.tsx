@@ -13,9 +13,10 @@ interface CartItem {
 }
 
 const CartPage: React.FC = () => {
-  const selectedproducts = useSelector(
-    (state: RootState) => state.user.cart.orders
-  );
+  const selectedproducts=[{}];
+  // const selectedproducts = useSelector(
+  //   (state: RootState) => state.user.cart.orders
+  // );
 
   // const calculateTotal = () => {
   //   return selectedproduct.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -39,7 +40,7 @@ const CartPage: React.FC = () => {
           <div className={styles.block}> 
           <div className={styles.order_details}>
             <div>
-              {selectedproducts.map((item)=>BasketItem(item))}
+              {/* {selectedproducts.map((item)=>BasketItem(item))} */}
             </div>
             <div className={styles.title}>Адрес доставки</div>
             <button className={styles.button}>Добавить</button>

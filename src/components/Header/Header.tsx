@@ -17,6 +17,8 @@ function Header({}: Props) {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const page = useSelector((state: RootState) => state.page).selectedPage;
+
+  const [isHovered, setIsHovered] = useState(false);
   const [selectedLink, setSelectedLink] = useState<LinkId | null>(page);
 
   const handlePageSelect = (selectedLink: LinkId) => {
@@ -25,15 +27,12 @@ function Header({}: Props) {
   };
 
   const logOut = ()  => {
-    // Удалите данные пользователя из Local Storage
     localStorage.removeItem('userData');
-    
-    // Очистите данные пользователя в Redux
     dispatch(clearUsers());
     navigate('/')
   };
 
-  const [isHovered, setIsHovered] = useState(false);
+
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -92,7 +91,7 @@ function Header({}: Props) {
         <Link to="/cart">
           <BsBasket className={styles.basket_logo} />
         </Link>
-        <div><MdFavoriteBorder className={styles.basket_logo}/></div>
+        <Link to='/favorites'><MdFavoriteBorder className={styles.basket_logo}/></Link>
         <div
           className={styles.user_icon}
           onMouseEnter={handleMouseEnter}
@@ -101,8 +100,13 @@ function Header({}: Props) {
           <LiaUserSolid className={styles.basket_logo} />
           {isHovered && (
             <div className={styles.user_info_popup}>
-              Никита Евтух 375445673247 Уведомления Доставки Покупки Избранное
-              Личные данные Скидка покупателя до 33% Отзывы 
+             <div>Никита Евтух</div>
+             <div> 375445673247 </div>  
+             <div>Уведомления</div>
+             <div>Доставки</div> 
+             <div>Покупки</div> 
+             <div>Избранное</div>
+             <div> Личные данные Скидка покупателя до 33% Отзывы  </div>
               <button onClick={()=>logOut()} className={styles.user_info_popup_button_exit}>Выйти</button>
             </div>
           )}

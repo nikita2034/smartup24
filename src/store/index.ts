@@ -1,8 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { combineReducers } from 'redux';
-import userReducer from './slices/userSlice'
+// import userReducer from './slices/userSlice'
+import userReducer from '../features/user/userSlice';
 import cartReducer from './slices/cartSlice'
-import productsReducer from './slices/productsSlice'
+// import productsReducer from './slices/productsSlice'
+import productsReducer from '../features/products/ProductsSlice'
 import pagesReducer from './slices/pageSlice'
 import parthersReducer from './slices/parthnersSlice'
 import partnerRequestsReducer from './slices/partnerRequestsSlice';
@@ -39,3 +41,4 @@ export const store = configureStore({
 // })
 
 export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch;

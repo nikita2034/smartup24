@@ -1,10 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import styles from "./ProductCard.module.scss";
-import { useDispatch } from "react-redux";
-import { addIdProduct } from '../../store/slices/productsSlice';
-import { useNavigate } from "react-router-dom";
+
 type Props = {
   id: number;
   title: string;

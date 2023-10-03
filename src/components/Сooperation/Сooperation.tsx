@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Cooperation.module.scss'
 import { Link } from 'react-router-dom';
 interface CooperationProps {
@@ -7,14 +7,14 @@ interface CooperationProps {
   name: string;
   categories: string[];
   onCollaborate: () => void;
-  path:string;
+  path:string
 }
 
 
-const Cooperation: React.FC<CooperationProps> = ({id, logo, name, categories, onCollaborate,path }) => {
+const Cooperation: React.FC<CooperationProps> = ({path, id, logo, name, categories, onCollaborate }) => {
 
   return (
-    <Link className={styles.container} to={`/supplier/${id}`}>
+    <Link className={styles.container} to={`/${path}/${id}`}>
       <img src={logo}  className={styles.company_logo}/>
       <div className={styles.flex_block}>
          <div className={styles.company_name}>{name}</div>

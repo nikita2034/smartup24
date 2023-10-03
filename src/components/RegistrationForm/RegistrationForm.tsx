@@ -41,6 +41,7 @@ function RegistrationForm({ onClose }: RegistrationFormProps) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [userType, setUserType] = useState<UserType>("supplier");
+  const [error, setError] = useState(null||'');
 
   const handleRegister = (email: string, password: string) => {
     const auth = getAuth();
@@ -55,13 +56,30 @@ function RegistrationForm({ onClose }: RegistrationFormProps) {
             email: user.email,
             cart: [],
           });
+      
       navigate("/main");
+      onClose();
+    })
+    .catch((error) => {
+      if (error.message === "Firebase: Error (auth/missing-email).") {
+        setError("Fill in the email field!");
+        // setSpinner(!spinner);
+      }
+      if (
+        error.message === "Firebase: Error (auth/email-already-in-use)."
+      ) {
+       setError("The user already exists!");
+       // setSpinner(!spinner);
+      }
+      if (error.message === "Firebase: Error (auth/invalid-email).") {
+        setError("Invalid email!");
+       // setSpinner(!spinner);
+      }
+      if (error.message === "Firebase: Error (auth/internal-error).") {
+       setError("Fill in the password field!");
+      // setSpinner(!spinner);
+      }
     });
-    // .catch((error) => {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   // ..
-    // });
   };
 
   const handleUserTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +89,6 @@ function RegistrationForm({ onClose }: RegistrationFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleRegister(email, password);
-    onClose();
   };
 
   return (
@@ -162,6 +179,7 @@ function RegistrationForm({ onClose }: RegistrationFormProps) {
           >
             Sing Up
           </button>
+          {error && <div style={{ color: 'red' }}>{error}</div>} {/* Вывод ошибки */}
         </form>
       </div>
     </div>

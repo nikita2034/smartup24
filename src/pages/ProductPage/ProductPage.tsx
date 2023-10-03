@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState} from "react";
 import styles from "./ProductPage.module.scss";
 import Header from "../../components/Header/Header";
 import ImageViewer from "../../components/ImageViewer/ImageViewer";
@@ -8,6 +8,8 @@ import type { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { addOrder } from "../../store/slices/userSlice";
 import { useParams } from 'react-router-dom';
+// import { selectProductById} from '../../features/products/ProductsSlice'
+import { selectProductById } from "../../features/products/productsSelectors";
 type Props = {};
 
 
@@ -16,10 +18,13 @@ function ProductPage({}: Props) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
-  const { id } = useParams();
-  const product = useSelector(
-    (state: RootState) => state.products.products[Number(id)-1]
-  );
+  const { id } = useParams(); // Получаем id из URL с использованием useParams
+  const product = useSelector((state) => selectProductById(state, id));
+
+  console.log(product);
+  if (!product) {
+    return <div>Продукт не найден</div>;
+  }
 
   function reducingQuantity() {
     if (quantity !== 1) {
@@ -29,16 +34,16 @@ function ProductPage({}: Props) {
     }
   }
   const handleAddToCart = () => {
-    dispatch(addOrder({ ...product, quantity }));
+    // dispatch(addOrder({ ...product, quantity }));
   };
 
 //  ;
   return (
     <>
       <Header />
-      <div className={styles.container}>
+      {product && ( <div className={styles.container}>
         <div className={styles.product_gallery}>
-          <ImageViewer images={product.photos} />
+          {/* <ImageViewer images={product.photos} /> */}
         </div>
 
         <div className={styles.product_description}>
@@ -120,7 +125,7 @@ function ProductPage({}: Props) {
             <button className={styles.order_button} onClick={()=>handleAddToCart()}>В корзину</button>
           </div>
         </div>
-      </div>
+      </div>)}
     </>
   );
 }

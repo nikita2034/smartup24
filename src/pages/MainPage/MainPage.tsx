@@ -5,25 +5,48 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import Header from "../../components/Header/Header";
 import CategoryDropdown from "../../components/CategoryDropdown/CategoryDropdown";
 import ImageSlider from "../../components/ImageSlider/ImageSlider";
-import { useSelector } from "react-redux";
-import {doc, query, where, getDocs,collection } from 'firebase/firestore';
+// import { query, where, getDocs,collection } from 'firebase/firestore';
 import { Link } from "react-router-dom";
-import { db } from "../../firebase";
-import { Product } from "../../store/slices/productsSlice";
-
-
+// import { Product } from "../../store/slices/productsSlice";
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../features/products/productsThunks';
+import { selectProducts, selectProductsLoading, selectProductsError } from '../../features/products/productsSelectors';
+import axios from "axios";
+import { selectUser } from "../../features/user/userSlice";
+import { fetchUser } from '../../features/user/userThunks'
+import { userLoaded } from "../../features/user/userSlice";
 type Props = {};
 
 function MainPage({}: Props) {
-  let products: Product[] = useSelector(
-    (state: RootState) => state.products
-  ).products;
-  const user = useSelector((state: RootState) => state.user.user);
+
+  // let products: Product[] = useSelector(
+  //   (state: RootState) => state.products
+  // ).products;
+
+  const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
+  // const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  const user = useSelector(selectUser);
+  const isLoading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
+
+
+
+  
+  useEffect(() => {
+    dispatch(getProducts());
+    dispatch(fetchUser('b1wVPIvhLFW9S26A51NHYWLYyZB3'));  // Здесь '12345' - это id пользователя
+    console.log(products)
+    console.log(user);
+  }, [dispatch]);
+
   const images=['/img/milka.jpg','/img/milka.jpg','/img/milka.jpg']
   let listProducts=products.map((product) => (
-    <Link className={styles.link} to={`/product/${product.id}`}>
+    <Link className={styles.link} to={`/product/${product._id}`}>
     <ProductCard
-      id={product.id}
+      id={product._id}
       title={product.title}
       trademark={product.trademark}
       caviar={product.caviar}
@@ -36,32 +59,17 @@ function MainPage({}: Props) {
     />
     </Link>
   ));
-  async function getData() {
-    console.log('1')
-    try {
-      console.log('2')
-      const userCollection = collection(db, 'users'); // Replace 'users' with your Firestore collection name
-      const userQuery = query(userCollection, where('email', '==', 'loki@mail.ru')); // You can specify the conditions here
-  
-      const querySnapshot = await getDocs(userQuery);
-  
-      querySnapshot.forEach((doc) => {
-        if (doc.exists()) {
-          console.log('User data:', doc.data());
-        } else {
-          console.log('No such document!');
-        }
-      });
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  }
-  useEffect(() => {
-    if (user) {
-      console.log('start')
-      getData()
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   // b1wVPIvhLFW9S26A51NHYWLYyZB3
+  //   axios.get('http://localhost:3300/user/b1wVPIvhLFW9S26A51NHYWLYyZB3')
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching products:', error);
+  //   });
+  // }, []);
 
   return (
     <>
@@ -127,7 +135,9 @@ function MainPage({}: Props) {
               </div>
             </div>
 
-            <div className={styles.product_gallery}>{listProducts}</div>
+            <div className={styles.product_gallery}>
+              {listProducts}
+              </div>
           </div>
         </main>
         <footer></footer>

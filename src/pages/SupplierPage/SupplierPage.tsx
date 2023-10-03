@@ -1,15 +1,38 @@
-import React,{useState} from "react";
+import React from "react";
 import Header from "../../components/Header/Header";
 import styles from "./SupplierPage.module.scss";
 import {useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import type { RootState } from "../../store";
-function SupplierPage() {
+
+type Props={
+  path:string;
+}
+
+function SupplierPage({path}:Props) {
  
   const { id } = useParams();
-  const supplier=useSelector(
-    (state: RootState) => state.suppliers.suppliers[Number(id)-1]
-  );
+  // const supplier=useSelector(
+  //   (state: RootState) => state.suppliers.suppliers[Number(id)-1]
+  // );
+
+  const supplier = useSelector((state: RootState) => {
+    switch (path) {
+      case "suppliers":
+        return state.suppliers.suppliers[Number(id)-1];
+      case "partners":
+        return state.parthners.parthners[Number(id)-1];
+      case "partner-requests":
+        return state.parhhnerRequests.parthnersRequest[Number(id)-1];
+      default:
+        return {}; // или другое значение по умолчанию
+    }
+  })as {
+    title: string; // Add the expected properties and their types here
+    description: string;
+    // Add other properties as needed
+  };
+ console.log(supplier);
   return (
     <div>
       <Header />

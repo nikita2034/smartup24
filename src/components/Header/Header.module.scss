@@ -109,17 +109,31 @@
   }
   
   .user_info_popup {
-    z-index: 1;
+    z-index: 999;
     position: absolute;
-    top: 140%; /* Разместить блок под иконкой */
-    left: -150%;
+    top: 110%; /* Разместить блок под иконкой */
+    left: -900%;
+    width: 200px;
+    border-radius:10px;
+    text-align: start;
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     display: none;
+    &_button_exit{
+        border-radius:8px;
+        font-size: 14px;
+        margin-top: 15px;
+        background-color:#4fb573;
+        padding: 8px;
+        color:white;
+        border:none;
+    }
   }
   
   .user_icon:hover .user_info_popup {
+
     display: block; /* Показать блок при наведении */
   }
+  
