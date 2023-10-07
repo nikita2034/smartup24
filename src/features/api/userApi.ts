@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3300'; // Замените на базовый URL вашего сервера
+const baseURL = 'http://localhost:3200'; // Замените на базовый URL вашего сервера
 
 const axiosInstance = axios.create({
   baseURL,

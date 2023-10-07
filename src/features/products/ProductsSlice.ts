@@ -11,7 +11,7 @@ export interface Product {
   weight: number;
   quantity_per_box:number;
   quantity:number;
-  photos: [string];
+  photos: string;
   // Добавьте другие поля продукта
 }
 

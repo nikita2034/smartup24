@@ -11,7 +11,7 @@ type Props = {
   price_per_box: number;
   weight: number;
   quantity_per_box:number;
-  photos: [string];
+  photos: string;
 };
 
 function ProductCard({
@@ -26,10 +26,13 @@ function ProductCard({
   quantity_per_box,
   photos}: Props) {
 
+
+    const imageUrl = URL.createObjectURL(new Blob([photos]));
+    console.log(photos)
   return (
       <div className={styles.container} >
         <img
-          src="/img\milka.jpg"
+          src={`data:image/png;base64,${photos}`}
           alt="product photo"
           className={styles.product_photo}
         />

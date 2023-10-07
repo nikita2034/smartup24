@@ -3,6 +3,8 @@ import RegistrationForm from "../../components/RegistrationForm/RegistrationForm
 import LoginForm from "../../components/LoginForm/LoginForm";
 import styles from "./StartPage.module.scss";
 import { Link } from "react-router-dom";
+import HeaderStartPage from "../../components/HeaderStartPage/HeaderStartPage";
+import Footer from "../../components/Footer/Footer";
 type Props = {};
 
 function StartPage({}: Props) {
@@ -29,15 +31,16 @@ function StartPage({}: Props) {
   
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
+      <HeaderStartPage/>
+      {/* <header className={styles.header}>
         <div className={styles.logo}>
           <img src='/img\logo.png' alt='logo' className={styles.logo_img} />
           <div className={styles.logo_text}>smartup24</div>
         </div>
         <div className={styles.navlink}>
-          <div   className={styles.navlink_title}>Преимущества</div>
-          <div  className={styles.navlink_title}>О компании</div>
-          <div  className={styles.navlink_title}>Контакты</div>
+          <Link to='/advantages'   className={styles.navlink_title}>Преимущества</Link>
+          <Link to='/about'  className={styles.navlink_title}>О компании</Link>
+          <Link to='/contacts'  className={styles.navlink_title}>Контакты</Link>
         </div>
         <div className={styles.authentication_panel}>
           <button  onClick={handleRegistrationButtonClick}
@@ -55,10 +58,12 @@ function StartPage({}: Props) {
         <LoginForm onClose={handleLoginFormClose} />
       )}
         </div>
-      </header>
+      </header> */}
 
       <main className={styles.main}>
         <div className={styles.main_container}>
+        <div className={styles.flex_block}>
+          <div>
           <div className={styles.title}>
             Online платформа
             <br /> B2B продаж
@@ -68,12 +73,16 @@ function StartPage({}: Props) {
             отправлять прямые заказы поставщикам, дистрибьютерам,
             производителям.
           </div>
+          </div>
+          <img src='/img\fon.png' className={styles.image_fon}/>
+          </div>
           <button className={styles.get_started_button}>
           <Link to='/main' className={styles.link}>  Начать пользовать</Link> 
           </button>
         </div>
       </main>
-      <footer className={styles.footer}>
+      <Footer/>
+      {/* <footer className={styles.footer}>
         <div>MERLIN</div>
         <div>Dirol</div>
         <div>Old Spice</div>
@@ -83,7 +92,7 @@ function StartPage({}: Props) {
         <div>BonUz</div>
         <div>blend-a-med</div>
         <div>LISTERINE</div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

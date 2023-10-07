@@ -8,19 +8,22 @@ import ImageSlider from "../../components/ImageSlider/ImageSlider";
 // import { query, where, getDocs,collection } from 'firebase/firestore';
 import { Link } from "react-router-dom";
 // import { Product } from "../../store/slices/productsSlice";
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../features/products/productsThunks';
-import { selectProducts, selectProductsLoading, selectProductsError } from '../../features/products/productsSelectors';
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../features/products/productsThunks";
+import {
+  selectProducts,
+  selectProductsLoading,
+  selectProductsError,
+} from "../../features/products/productsSelectors";
 import axios from "axios";
 import { selectUser } from "../../features/user/userSlice";
-import { fetchUser } from '../../features/user/userThunks'
+import { fetchUser } from "../../features/user/userThunks";
 import { userLoaded } from "../../features/user/userSlice";
 type Props = {};
 
 function MainPage({}: Props) {
-
   // let products: Product[] = useSelector(
   //   (state: RootState) => state.products
   // ).products;
@@ -32,31 +35,73 @@ function MainPage({}: Props) {
   const isLoading = useSelector(selectProductsLoading);
   const error = useSelector(selectProductsError);
 
-
-
-  
   useEffect(() => {
     dispatch(getProducts());
-    dispatch(fetchUser('b1wVPIvhLFW9S26A51NHYWLYyZB3'));  // Здесь '12345' - это id пользователя
-    console.log(products)
+    dispatch(fetchUser("b1wVPIvhLFW9S26A51NHYWLYyZB3")); // Здесь '12345' - это id пользователя
+    console.log(products);
     console.log(user);
   }, [dispatch]);
 
-  const images=['/img/milka.jpg','/img/milka.jpg','/img/milka.jpg']
-  let listProducts=products.map((product) => (
+  const companies = [
+    { title: "Савушкин Продукт", selected: false },
+    { title: "Компания 'Комарово'", selected: false },
+    { title: "Агрофирма 'Свитлогорье'", selected: false },
+    { title: "Минский пивоваренный завод", selected: false },
+    { title: "Беларускалий", selected: false },
+    { title: "Свитлогорский молочный завод", selected: false },
+    { title: "Агрофирма 'Молодечно'", selected: false },
+    { title: "Минский масложировой комбинат", selected: false },
+    { title: "Агрофирма 'Заря'", selected: false },
+    { title: "Белорусская хлебопекарня", selected: false },
+    { title: "Фабрика 'Алёнка'", selected: false },
+    { title: "Агрофирма 'Радамир'", selected: false },
+    { title: "Минский завод орехопереработки", selected: false },
+    { title: "ОАО 'Сладкоежка'", selected: false },
+    { title: "ЗАО 'Молочные продукты'", selected: false },
+  ];
+  const productCategories = [
+    { title: 'Фрукты и овощи', selected: false },
+      { title: 'Молочные продукты', selected: false },
+      { title: 'Мясо и птица', selected: false },
+      { title: 'Рыба и морепродукты', selected: false },
+      { title: 'Замороженные продукты', selected: false },
+      { title: 'Напитки', selected: false },
+      { title: 'Детское питание', selected: false },
+      { title: 'Экологически чистые продукты', selected: false },
+  ]
+  const suppliers = [
+    { title: "Савушкин Продукт", selected: false },
+    { title: "Компания 'Комарово'", selected: false },
+    { title: "Агрофирма 'Свитлогорье'", selected: false },
+    { title: "Минский пивоваренный завод", selected: false },
+    { title: "Беларускалий", selected: false },
+    { title: "Свитлогорский молочный завод", selected: false },
+    { title: "Агрофирма 'Молодечно'", selected: false },
+    { title: "Минский масложировой комбинат", selected: false },
+    { title: "Агрофирма 'Заря'", selected: false },
+    { title: "Белорусская хлебопекарня", selected: false },
+    { title: "Фабрика 'Алёнка'", selected: false },
+    { title: "Агрофирма 'Радамир'", selected: false },
+    { title: "Минский завод орехопереработки", selected: false },
+    { title: "ОАО 'Сладкоежка'", selected: false },
+    { title: "ЗАО 'Молочные продукты'", selected: false }
+  ];
+
+  const images = ["/img/milka.jpg", "/img/milka.jpg", "/img/milka.jpg"];
+  let listProducts = products.map((product) => (
     <Link className={styles.link} to={`/product/${product._id}`}>
-    <ProductCard
-      id={product._id}
-      title={product.title}
-      trademark={product.trademark}
-      caviar={product.caviar}
-      barcode={product.barcode}
-      supplier={product.supplier}
-      price_per_box={product.price_per_box}
-      weight={product.weight}
-      quantity_per_box={product.quantity_per_box}
-      photos={product.photos}
-    />
+      <ProductCard
+        id={product._id}
+        title={product.title}
+        trademark={product.trademark}
+        caviar={product.caviar}
+        barcode={product.barcode}
+        supplier={product.supplier}
+        price_per_box={product.price_per_box}
+        weight={product.weight}
+        quantity_per_box={product.quantity_per_box}
+        photos={product.photos}
+      />
     </Link>
   ));
 
@@ -85,35 +130,17 @@ function MainPage({}: Props) {
             <div className={styles.filter}>
               <div>
                 {/* <div className={styles.filter_title}>Категории</div> */}
-                <CategoryDropdown title="Категории" />
-                {/* <div>Овощи</div>
-              <div>Мясная продукция</div>
-              <div>Фрукты</div>
-              <div>Полуфабрикаты</div>
-              <div>Бакалея</div>
-              <div>Соусы</div> */}
-              </div>
-              <div>
-                {/* <div className={styles.filter_title}>Отрасль</div> */}
-                <CategoryDropdown title="Отрасль" />
-                {/* <CategoryDropdown/> */}
-                {/* <div>Стройматериалы</div>
-              <div>Продовольствие</div>
-              <div>Хоз товары</div>
-              <div>Бытовая химия</div> */}
+                <CategoryDropdown title="Категории" categories={productCategories} />
               </div>
               <div>
                 {/* <div className={styles.filter_title}>Производители</div> */}
-                <CategoryDropdown title="Производители" />
-                {/* <div>ганна</div>
-              <div>Санта</div>
-              <div>Местное Известное</div>
-              <div>Кока-Кола</div>
-              <div>Савушкин</div>
-              <div>М1</div> */}
+                <CategoryDropdown
+                  title="Производители"
+                  categories={companies}
+                />
               </div>
               {/* <div className={styles.filter_title}>Поставщики</div> */}
-              <CategoryDropdown title="Поставщики" />
+              <CategoryDropdown title="Поставщики" categories={suppliers}/>
             </div>
           </div>
 
@@ -135,9 +162,7 @@ function MainPage({}: Props) {
               </div>
             </div>
 
-            <div className={styles.product_gallery}>
-              {listProducts}
-              </div>
+            <div className={styles.product_gallery}>{listProducts}</div>
           </div>
         </main>
         <footer></footer>

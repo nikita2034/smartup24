@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../../components/Header/Header";
 import styles from "./СooperationPage.module.scss";
 // import { Link} from "react-router-dom";
@@ -7,20 +7,25 @@ import Cooperation from "../../components/Сooperation/Сooperation";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { selectButton } from "../../store/slices/pageSlice";
 import type { RootState } from "../../store";
+import type { AppDispatch } from '../../store';
 import { useDispatch } from "react-redux";
-
+import { fetchSuppliersAsync } from "../../features/suppliers/SuppliersSlice";
+import { selectSuppliers, selectLoading, selectError } from '../../features/suppliers/supplierSelectors';
 type Props = {
   path: string;
 };
 
 type ButtonId = "button1" | "button2" | "button3";
 
+
 function CooperationPage({ path }: Props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const button = useSelector((state: RootState) => state.page).selectedButton;
+ const button = useSelector((state: RootState) => state.page).selectedButton;
  const [selectedButton, setSelectedButton] = useState<ButtonId | null>(button);
+
+//  const [partnersOrSuppliersOrRequests, setPartnersOrSuppliersOrRequests] = useState<Supplier[]>();
 
   const handleButtonClick = (selectedButton: ButtonId) => {
     setSelectedButton(selectedButton);
@@ -28,23 +33,39 @@ function CooperationPage({ path }: Props) {
     // Дополнительные действия при нажатии на кнопку
   };
 
+  const suppliers=useSelector(selectSuppliers);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+
+  useEffect(() => {
+    dispatch(fetchSuppliersAsync());
+    console.log(suppliers)
+  }, [dispatch]);
+
   let title;
-  const suppliers = useSelector((state: RootState) => {
+  let date=null;
+
+  // const suppliers = useSelector((state: RootState) => {
     switch (path) {
       case "suppliers":
         title = "Поставщики";
-        return state.suppliers.suppliers;
-
+        date=suppliers
+        break;
       case "partners":
         title = "Партнеры";
-        return state.parthners.parthners;
+        // setPartnersOrSuppliersOrRequests([])
+        break;
       case "partner-requests":
         title = "Заявки";
-        return state.parhhnerRequests.parthnersRequest;
+        // setPartnersOrSuppliersOrRequests([])
+        break;
       default:
         return []; 
     }
-  });
+
+
+
 
   return (
     <div>
@@ -87,8 +108,8 @@ function CooperationPage({ path }: Props) {
             Заявки
           </button>
         </div>
-        <ul>
-          {suppliers.map((supplier) => (
+        {date !== null ? ( <ul>
+          {date.map((supplier) => (
             <li key={supplier.id} className={styles.li}>
               <Cooperation
                 id={supplier.id}
@@ -102,7 +123,9 @@ function CooperationPage({ path }: Props) {
               />
             </li>
           ))}
-        </ul>
+        </ul>):(
+          <></>
+        )}
       </div>
     </div>
   );
