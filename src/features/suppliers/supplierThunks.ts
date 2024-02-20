@@ -1,25 +1,18 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { fetchSuppliers } from '../api/suppliersApi'; // Импортируйте функцию для запроса к серверу
+import { Dispatch } from 'redux';
+import { supplierLoading, supplierLoaded, supplierError } from './SuppliersSlice';
 
-export const fetchSuppliersAsync = createAsyncThunk('suppliers/fetchSuppliers', async () => {
+export const getSuppliers = () => {
+  return async (dispatch: Dispatch) => {
     try {
-      // dispatch(productsLoading());
-      // const data = await fetchProducts();
-      // dispatch(productsLoaded(data));
-      console.log('dddd');
-      const response = await fetchSuppliers();
-      // dispatch(productsLoaded(response.data));
-        console.log(response);
-      return response;
-    
+      dispatch(supplierLoading());
+      const data = await fetchSuppliers();
+      console.log(data)
+      dispatch(supplierLoaded(data));
     } catch (error) {
-      // const errorMessage = typeof error === 'string' ? error : 'An error occurred';
-      // dispatch(productsError(errorMessage));
+      const errorMessage = typeof error === 'string' ? error : 'An error occurred';
+      dispatch(supplierError(errorMessage));
     }
-
-
-  // const response = await fetchSuppliers();
-  // return response.data;
-});
-
-
+  };
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StartPage from "./pages/StartPage/StartPage";
 // import { useSelector} from "react-redux/es/hooks/useSelector";
 // import { useDispatch } from "react-redux";
@@ -19,37 +19,12 @@ import AdvantagesPage from "./pages/AdvantagesPage/AdvantagesPage";
 import "./App.css";
 
 function App() {
+  
+  useEffect(()=>{
+    let userJson = localStorage.getItem("userData");
+  })
   let userJson = localStorage.getItem("userData");
-  // useEffect(() => {
-  //   console.log(user);
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
 
-  //       dispatch(
-  //         setUser({
-  //           email: user.email || '',
-  //           id: user.uid,
-  //           name: 'peter',
-  //           auth:true,
-  //         })
-  //       );
-
-  //     } else {
-  //       // User is signed out, dispatch clearUser action
-  //       // dispatch(clearUser());
-  //     }
-  //   });
-
-  //   return () => {
-  //     // Unsubscribe when the component unmounts
-  //     unsubscribe();
-  //   };
-
-  // }, [dispatch, auth]);
-
-  // dispatch, auth
-
-  console.log(userJson);
   return (
     <div className="App">
       <Routes>

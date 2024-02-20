@@ -9,8 +9,16 @@ import { selectButton } from "../../store/slices/pageSlice";
 import type { RootState } from "../../store";
 import type { AppDispatch } from '../../store';
 import { useDispatch } from "react-redux";
-import { fetchSuppliersAsync } from "../../features/suppliers/SuppliersSlice";
+// import { fetchSuppliersAsync } from "../../features/suppliers/SuppliersSlice";
+import { getSuppliers } from "../../features/suppliers/supplierThunks";
+import { getPartners } from "../../features/partners/partnersThunks";
 import { selectSuppliers, selectLoading, selectError } from '../../features/suppliers/supplierSelectors';
+import { selectPartners} from '../../features/partners/partnersSelectors'
+import { selectPartnerRequests } from "../../features/partner_requests/partnerRequestsSelectors";
+import { fetchPartnerRequests } from "../../features/partner_requests/partnerRequestsSlice";
+import { addSupplierToPartners } from "../../features/adding_to_partners/addingToPartnersAction";
+import { selectUserId } from "../../features/user/userSelectors";
+
 type Props = {
   path: string;
 };
@@ -23,50 +31,55 @@ function CooperationPage({ path }: Props) {
   const dispatch = useDispatch<AppDispatch>();
 
  const button = useSelector((state: RootState) => state.page).selectedButton;
+ const [userId,setUserId]=useState<string>(String(useSelector(selectUserId)))
  const [selectedButton, setSelectedButton] = useState<ButtonId | null>(button);
-
-//  const [partnersOrSuppliersOrRequests, setPartnersOrSuppliersOrRequests] = useState<Supplier[]>();
 
   const handleButtonClick = (selectedButton: ButtonId) => {
     setSelectedButton(selectedButton);
      dispatch(selectButton(selectedButton));
-    // Дополнительные действия при нажатии на кнопку
   };
 
   const suppliers=useSelector(selectSuppliers);
+  const partners=useSelector(selectPartners);
+  const partnerRequests = useSelector(selectPartnerRequests);
+
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
 
-
   useEffect(() => {
-    dispatch(fetchSuppliersAsync());
-    console.log(suppliers)
+    dispatch(getSuppliers());
+    dispatch(getPartners());
+    dispatch(fetchPartnerRequests());
   }, [dispatch]);
 
   let title;
   let date=null;
 
-  // const suppliers = useSelector((state: RootState) => {
     switch (path) {
       case "suppliers":
         title = "Поставщики";
         date=suppliers
+        console.log(date)
         break;
       case "partners":
         title = "Партнеры";
-        // setPartnersOrSuppliersOrRequests([])
+        date=partners;
+        console.log(date)
         break;
       case "partner-requests":
         title = "Заявки";
-        // setPartnersOrSuppliersOrRequests([])
+        date=partnerRequests;
+        console.log(date)
         break;
       default:
         return []; 
     }
 
 
-
-
+function onCollaborate(supplierId:string){
+  dispatch(addSupplierToPartners({userId, supplierId }));
+  // console.log(userId)
+}
   return (
     <div>
       <Header />
@@ -110,16 +123,14 @@ function CooperationPage({ path }: Props) {
         </div>
         {date !== null ? ( <ul>
           {date.map((supplier) => (
-            <li key={supplier.id} className={styles.li}>
+            <li key={supplier._id} className={styles.li}>
               <Cooperation
-                id={supplier.id}
+                id={supplier._id}
                 logo={supplier.logo}
                 name={supplier.title}
-                categories={supplier.categories}
+                // categories={supplier.categories}
                 path={path}
-                onCollaborate={() => {
-                  alert(`Вы начали сотрудничество с ${supplier.title}`);
-                }}
+                onCollaborate={onCollaborate}
               />
             </li>
           ))}

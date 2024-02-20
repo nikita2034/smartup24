@@ -15,10 +15,10 @@ function ContactsPage() {
         <strong>Адрес:</strong> 123456, Город, Улица, Дом, Офис
       </p>
       <p>
-        <strong>Телефон:</strong> +7 (123) 456-7890
+        <strong>Телефон:</strong> +375445673247
       </p>
       <p>
-        <strong>Электронная почта:</strong> info@yourb2bplatform.com
+        <strong>Электронная почта:</strong>evtukh.nikitka@mail.ru
       </p>
       <p>
         <strong>Часы работы:</strong> <br />
@@ -29,29 +29,14 @@ function ContactsPage() {
     <div className="customer-support">
       <h2>Поддержка клиентов</h2>
       <p>
-        <strong>Телефон для связи с поддержкой:</strong> +7 (123) 456-7890
+        <strong>Телефон для связи с поддержкой:</strong> +375445673247
       </p>
       <p>
         <strong>Электронная почта поддержки:</strong>{' '}
-        support@yourb2bplatform.com
+      evtukh.nikitka@mail.ru
       </p>
     </div>
-    <div className="social-media">
-      <h2>Следите за нами в социальных сетях:</h2>
-      <ul>
-        <li>
-          <a href="https://www.facebook.com/yourb2bplatform">Facebook</a>
-        </li>
-        <li>
-          <a href="https://twitter.com/yourb2bplatform">Twitter</a>
-        </li>
-        <li>
-          <a href="https://www.linkedin.com/company/yourb2bplatform">
-            LinkedIn
-          </a>
-        </li>
-      </ul>
-    </div>
+
   </div>
   </div>
   <Footer/>

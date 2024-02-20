@@ -1,39 +1,32 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
+import { fetchUser } from '../api/userApi';
+import { Dispatch } from 'redux';
+import { userLoading, userLoaded, userError,} from './userSlice'
+// import { AppDispatch } from './store'; // Предполагается, что у вас есть store и AppDispatch
+// import { removeFromCartRequest, removeFromCartSuccess, removeFromCartFailure } from './cartSlice';
+// import axios from 'axios';
 // Создаем асинхронную Thunk для получения пользователя по id
-interface UserData {
-    id: string;
-    name: string;
-    // Другие поля пользователя
-  }
   
-// export const getProducts = () => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       dispatch(productsLoading());
-//       const data = await fetchProducts();
-//       dispatch(productsLoaded(data));
-//     } catch (error) {
-//       const errorMessage = typeof error === 'string' ? error : 'An error occurred';
-//       dispatch(productsError(errorMessage));
-//     }
-//   };
-// };
-
-  // Создание Thunk для получения данных пользователя по ID
-  export const fetchUser = createAsyncThunk<UserData, string>(
-    'user/fetchUserById', // Уникальное имя для Thunk
-    async (id, thunkAPI) => {
+  export const getUser = (id:string) => {
+    return async (dispatch: Dispatch) => {
       try {
-        // Отправляем GET-запрос на сервер, передавая id пользователя в URL
-        const response = await axios.get(`http://localhost:3300/user/${id}`);
-        console.log(response.data);
-        // Возвращаем полученные данные как результат успешного запроса
-        return response.data as UserData;
-      } catch (error:any) {
-        // В случае ошибки, используем rejectWithValue для передачи ошибки
-        return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+        dispatch(userLoading());
+        const data = await fetchUser(id);
+        dispatch(userLoaded(data));
+      } catch (error) {
+        const errorMessage = typeof error === 'string' ? error : 'An error occurred';
+        dispatch(userError(errorMessage));
       }
-    }
-  );
+    };
+  };
+  // export const removeProductFromCart = (userId: string, productId: string) => async (dispatch: AppDispatch) => {
+  //   try {
+  //     dispatch(removeFromCartRequest());
+  
+  //     // Выполните запрос на удаление товара
+  //     await axios.delete(`/cart/removeFromCart/${userId}/${productId}`);
+  
+  //     dispatch(removeFromCartSuccess());
+  //   } catch (error) {
+  //     dispatch(removeFromCartFailure(error.message));
+  //   }
+  // };

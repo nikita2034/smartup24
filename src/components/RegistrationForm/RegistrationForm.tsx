@@ -1,64 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState,} from "react";
+import { useDispatch} from "react-redux";
 import styles from "./RegistrationForm.module.scss";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { db } from "../../firebase";
-import { doc, setDoc, addDoc } from "firebase/firestore";
+import { createUserOnServer } from "@/features/createUser/createUserSlice";
 interface RegistrationFormProps {
+
   onClose: () => void;
 }
 
-// блок для отработки различных ошибок при регистрации
-//   .catch((error) => {
-//     if (error.message == "Firebase: Error (auth/missing-email).") {
-//       setErrorDescription("Fill in the email field!");
-//       setSpinner(!spinner);
-//     }
-//     if (
-//       error.message == "Firebase: Error (auth/email-already-in-use)."
-//     ) {
-//       setErrorDescription("The user already exists!");
-//       setSpinner(!spinner);
-//     }
-//     if (error.message == "Firebase: Error (auth/invalid-email).") {
-//       setErrorDescription("Invalid email!");
-//       setSpinner(!spinner);
-//     }
-//     if (error.message == "Firebase: Error (auth/internal-error).") {
-//       setErrorDescription("Fill in the password field!");
-//       setSpinner(!spinner);
-//     }
-//   });
 
-// };
 type UserType = "supplier" | "pointOfSale";
 
 function RegistrationForm({ onClose }: RegistrationFormProps) {
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [userType, setUserType] = useState<UserType>("supplier");
+
+  // const navigate = useNavigate();
   const [error, setError] = useState(null||'');
 
   const handleRegister = (email: string, password: string) => {
     const auth = getAuth();
-    console.log(auth);
     createUserWithEmailAndPassword(auth, email, password).then(({ user }) => {
-      
-          setDoc(doc(db, "users", user.uid), {
-            name: name,
-            surname:surname,
-            organizationName:organizationName,
-            userType:userType,
-            email: user.email,
-            cart: [],
-          });
-      
-      navigate("/main");
-      onClose();
+      const userData = {
+        id: user.uid,
+        fname: name,
+        lname: surname,
+        cart:[],
+        favorites:[],
+        partners:[],
+        partner_requests:[],
+        logo: 'костыль',     
+        title:organizationName,
+        role:userType
+
+      };
+      // dispatch(createUserOnServer(userData));
+          // localStorage.setItem("userData", JSON.stringify(user));
+      // navigate("/main");
+      // onClose();
     })
     .catch((error) => {
       if (error.message === "Firebase: Error (auth/missing-email).") {

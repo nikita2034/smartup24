@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ProductCard.module.scss";
-
+import {MdOutlineFavoriteBorder,MdOutlineFavorite} from 'react-icons/md'
+import { Link } from "react-router-dom";
 type Props = {
   id: number;
   title: string;
@@ -12,6 +13,8 @@ type Props = {
   weight: number;
   quantity_per_box:number;
   photos: string;
+  favorite:boolean;
+  handleFavorites:(productId:string)=>void;
 };
 
 function ProductCard({
@@ -23,16 +26,21 @@ function ProductCard({
   supplier,
   price_per_box,
   weight,
+  favorite,
   quantity_per_box,
+  handleFavorites,
   photos}: Props) {
 
-
-    const imageUrl = URL.createObjectURL(new Blob([photos]));
-    console.log(photos)
   return (
       <div className={styles.container} >
+        {favorite? 
+        <MdOutlineFavorite className={styles.icon} onClick={()=> handleFavorites(String(id))}/>
+        :
+          <MdOutlineFavoriteBorder className={styles.icon} onClick={()=> handleFavorites(String(id))}/>
+        }
+        <Link className={styles.link} to={`/product/${id}`}>
         <img
-          src={`data:image/png;base64,${photos}`}
+          src={photos}
           alt="product photo"
           className={styles.product_photo}
         />
@@ -60,6 +68,7 @@ function ProductCard({
             <div>{price_per_box}$</div>
           </div>
         </div>
+        </Link>
       </div>
   );
 }

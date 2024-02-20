@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     background-color: #FFFF;
+    padding-bottom: 40px;
     // background: url('../../../public/img/startpage.jpg');
     min-height: 100vh;
 }
@@ -150,4 +151,10 @@
     text-decoration: none;
     color:black;
 
+}
+.footer{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: center;
 }
