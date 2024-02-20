@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import type { RootState } from "../../store";
@@ -6,15 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPage } from "../../store/slices/pageSlice";
 import { BsBasket } from "react-icons/bs";
 import { LiaUserSolid } from "react-icons/lia";
-import { clearUsers } from "../../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import {MdFavoriteBorder} from 'react-icons/md'
+import axios from "axios";
+import { productsLoaded } from "../../features/products/ProductsSlice";
+
 type Props = {};
 
 type LinkId = "link1" | "link2" | "link3";
 
 function Header({}: Props) {
   const dispatch = useDispatch();
+  // const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
   const navigate = useNavigate()
   const page = useSelector((state: RootState) => state.page).selectedPage;
 
@@ -28,11 +31,8 @@ function Header({}: Props) {
 
   const logOut = ()  => {
     localStorage.removeItem('userData');
-    dispatch(clearUsers());
     navigate('/')
   };
-
-
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -41,6 +41,27 @@ function Header({}: Props) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3500/products/search?query=${query}`);
+      dispatch(productsLoaded(response.data));
+    } catch (error) {
+      console.error('Error searching for products:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (query) {
+      handleSearch();
+    } else {
+      setResults([]);
+    }
+  }, [query]);
 
   return (
     <header className={styles.header}>
@@ -87,7 +108,11 @@ function Header({}: Props) {
       </div>
 
       <div className={styles.toolbar}>
-        <input placeholder="поиск" className={styles.product_search} />
+        <input placeholder="поиск" className={styles.product_search} 
+           value={query}
+           onChange={(e) => setQuery(e.target.value)}
+          />
+       
         <Link to="/cart">
           <BsBasket className={styles.basket_logo} />
         </Link>
@@ -101,22 +126,11 @@ function Header({}: Props) {
           {isHovered && (
             <div className={styles.user_info_popup}>
              <div>Никита Евтух</div>
-             <div> 375445673247 </div>  
-             <div>Уведомления</div>
-             <div>Доставки</div> 
-             <div>Покупки</div> 
-             <div>Избранное</div>
-             <div> Личные данные Скидка покупателя до 33% Отзывы  </div>
               <button onClick={()=>logOut()} className={styles.user_info_popup_button_exit}>Выйти</button>
             </div>
           )}
         </div>
       </div>
-      {/* <select className={styles.language_selector}>
-        <option value="RU">RU</option>
-        <option value="ENG">ENG</option>
-      </select> */}
-      {/* <button className={styles.order_button}>Сделать заказ</button> */}
     </header>
   );
 }

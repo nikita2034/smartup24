@@ -1,16 +1,8 @@
 // supplierAPI.ts
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3200'; // Замените на фактический URL вашего сервера
+const baseURL = 'http://localhost:3500'; // Замените на фактический URL вашего сервера
 
-// export const fetchSuppliers = async () => {
-//   const response = await axios.get(`${baseURL}/suppliers`);
-//   return response.data;
-// };
-
-
-// productsApi.ts
-// Замените на базовый URL вашего сервера
 const axiosInstance = axios.create({
   baseURL,
   timeout: 5000, // Настройте таймаут запроса, если необходимо

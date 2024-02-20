@@ -1,3 +1,15 @@
 .container{
     background-color: #E8E4E0;
+    padding-bottom: 40px;
+}
+.li{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+    text-align: start;
+    &_header{
+        font-weight: 500;
+        font-size: 22px;
+    }
 }

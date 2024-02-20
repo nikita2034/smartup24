@@ -120,6 +120,8 @@
 .block{
     display: flex;
     flex-direction: row;
+    align-items:center;
+    gap:15px;
 }
 .element_display_control{
     display: flex;
@@ -176,6 +178,6 @@
     }
 }
 .icon{
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
 }

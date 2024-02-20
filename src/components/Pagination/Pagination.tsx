@@ -1,34 +1,57 @@
-// import React, { useState } from 'react';
-// import ReactPaginate from 'react-paginate';
 
-// interface PaginationProps {
-//   pageCount: number; // Количество страниц
-//   onPageChange: (selectedItem: { selected: number }) => void; // Обработчик смены страницы
-// }
+import { useSelector } from "react-redux";
 
-// const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
-//   const [currentPage, setCurrentPage] = useState<number>(0);
+import type { RootState } from "../../store";
 
-//   const handlePageChange = (selectedItem: { selected: number }) => {
-//     setCurrentPage(selectedItem.selected);
-//     onPageChange(selectedItem);
-//   };
+import styles from "./Pagination.module.scss";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
-//   return (
-//     <ReactPaginate
-//       pageCount={pageCount}
-//       pageRangeDisplayed={2}
-//       marginPagesDisplayed={1}
-//       previousLabel={'Пред.'}
-//       nextLabel={'След.'}
-//       breakLabel={'...'}
-//       breakClassName={'break-me'}
-//       forcePage={currentPage}
-//       onPageChange={handlePageChange}
-//       containerClassName={'pagination'}
-//       activeClassName={'active'}
-//     />
-//   );
-// };
+type Props = {
+  currentPage: number;
+  setCurrentPage: (number: number) => void;
+};
 
-// export default Pagination;
+
+
+function Pagination({ setCurrentPage, currentPage }: Props) { 
+  const productCount = useSelector((state: RootState) => state.productsCount.count);
+  console.log(productCount)
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(productCount/ 5); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <div className={styles.pagination}>
+      <button
+        onClick={() => setCurrentPage(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={styles.button}
+      >
+        <GrPrevious className={styles.icon} />
+      </button>
+
+      {pageNumbers.map((number) => (
+        <button
+          key={number}
+          onClick={() => setCurrentPage(number)}
+          className={`${styles.button} ${
+            number === currentPage ? styles.active : ""
+          }`}
+        >
+          {number}
+        </button>
+      ))}
+      <button
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={currentPage === pageNumbers.length}
+        className={styles.button}
+      >
+        <GrNext className={styles.icon} />
+      </button>
+    </div>
+  );
+}
+
+export default Pagination;

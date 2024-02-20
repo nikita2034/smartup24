@@ -23,6 +23,6 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/components/DeliveryModal/DeliveryModal.tsч"  ],
   "exclude": ["node_modules"]
 }
